@@ -4,9 +4,6 @@
 
 BITS 16
 
-	;; TODO: update comments to reflect that it seems the program does not
-	;; crash where I'd hoped
-
 	;; TODO: read comments/code again to make sure the tests make sense
 
 main:	
@@ -37,13 +34,13 @@ main:
 	;; Test if we can read memory at [es:0x0000].
 	;; 
 	;; Overwrite cl with [es:0x0000] and print it for visual confirmation.
-	;; If we print a 'Y', then perhaps [es:0x0000] happened to contain a
-	;; 'Y', in which case we should set cl to some other character in the
-	;; above step and run the program again to make sure that we are not
-	;; just failing to overwrite cl here and re-printing its contents from
-	;; the above step. (Though I hope the program would actually crash
-	;; if [es:0x0000] cannot be read, rather than just silently fail to
-	;; overwrite cl.)
+	;; If we print another 'Y', then it probably means we failed to move
+	;; [es:0x0000] into cl and just printed the 'Y' that we put in cl
+	;; during the previous step. In this case, we should set cl to some other
+	;; character in the previous step and re-run the program, to make sure
+	;; that [es:0x0000] does not just happen to contain a 'Y'. If we change
+	;; cl to another character and still see it printed twice, then it seems
+	;; likely that we can't move [es:0x0000] into cl.
 	mov BYTE cl, [es:0x0000]
 	mov di, 0x0002
 	call printChar
@@ -51,9 +48,8 @@ main:
 	;; Test if we can write memory at [es:0x0000].
 	;;
 	;; Overwrite [es:0x0000] with 'Z' and print it for visual confirmation.
-	;; If we print the same character as was printed by the above step,
-	;; then it probably means we failed to overwrite [es:0x0000]; though,
-	;; again, I hope the program would crash in this case.
+	;; If we print the same character as was printed by the previous step,
+	;; then it probably means we cannot write [es:0x0000].
 	;;
 	;; I don't know how we would test the ability to write to [es:0x0000]
 	;; if we cannot read from [es:0x0000] in order to print its contents.
