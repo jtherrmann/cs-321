@@ -59,6 +59,8 @@ main:
 	mov di, 0x0004
 	call printChar
 
+	jmp hang
+
 printChar:
 ;;; Print the byte in cl to 0xB800:di.
 	push ax
