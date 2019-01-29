@@ -2,7 +2,17 @@
 ;;; CS 321 HW 1
 ;;; https://www.cs.uaf.edu/2019/spring/cs321/hw/hw1/
 
-	;; Segment to be tested.
+;;; For each segment to be tested:
+;;; 
+;;; 1. Set SEGMENT to the segment.
+;;; 2. Set TEST to testStack and run the program.
+;;; 3. Set TEST to testReadWrite and run the program.
+
+;;; To run the program:
+;;; 
+;;; nasm hw1.asm -o hw1.bin
+;;; qemu-system-x86_64 hw1.bin
+
 	%define SEGMENT 0x0000
 
 	%define TEST testStack
