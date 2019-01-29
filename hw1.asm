@@ -2,11 +2,37 @@
 ;;; CS 321 HW 1
 ;;; https://www.cs.uaf.edu/2019/spring/cs321/hw/hw1/
 
+	;; Segment to be tested.
+	%define SEGMENT 0x0000
+
+	%define TEST testStack
+
 BITS 16
 
 	;; TODO: read comments/code again to make sure the tests make sense
 
-main:	
+	jmp TEST
+
+testStack:
+	mov ax, SEGMENT
+	mov ss, ax
+	mov sp, 0x100
+
+	mov cl, 'H'
+	mov di, 0x0000
+	call printChar
+
+	mov cl, 'i'
+	mov di, 0x0002
+	call printChar
+
+	mov cl, '!'
+	mov di, 0x0004
+	call printChar
+
+	jmp hang
+
+testReadWrite:
 	;; Overwrite the first row with spaces.
 	mov cl, ' '
 	mov di, 0x0000
@@ -27,8 +53,7 @@ main:
 	mov di, 0x0000
 	call printChar
 
-	;; Segment to be tested.
-	mov ax, 0xF000
+	mov ax, SEGMENT
 	mov es, ax
 
 	;; Test if we can read memory at [es:0x0000].
