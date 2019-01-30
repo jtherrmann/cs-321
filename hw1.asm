@@ -14,16 +14,16 @@
 ;;; qemu-system-x86_64 hw1.bin
 
 	%define SEGMENT 0x0000
-
 	%define TEST testStack
 
 BITS 16
 
-	;; TODO: read comments/code again to make sure the tests make sense
-
 	jmp TEST
 
 testStack:
+	;; Set the stack segment to SEGMENT and see if we can call functions.
+	;; We should print "Hi!" if it works.
+
 	mov ax, SEGMENT
 	mov ss, ax
 	mov sp, 0x100
@@ -43,10 +43,9 @@ testStack:
 	jmp hang
 
 testReadWrite:
-	;; Overwrite the first row with spaces.
+	;; Overwrite the first row of characters with spaces.
 	mov cl, ' '
 	mov di, 0x0000
-
 	.loop:
 
 	call printChar
@@ -63,6 +62,7 @@ testReadWrite:
 	mov di, 0x0000
 	call printChar
 
+	;; Set es to SEGMENT.
 	mov ax, SEGMENT
 	mov es, ax
 
@@ -89,7 +89,7 @@ testReadWrite:
 	;; I don't know how we would test the ability to write to [es:0x0000]
 	;; if we cannot read from [es:0x0000] in order to print its contents.
 	;; Hopefully there are no segments that can be written but not read.
-	mov BYTE [es:0x0000],'Z'
+	mov BYTE [es:0x0000], 'Z'
 	mov BYTE cl, [es:0x0000]
 	mov di, 0x0004
 	call printChar
