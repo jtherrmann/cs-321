@@ -94,6 +94,15 @@ testReadWrite:
 	mov di, 0x0004
 	call printChar
 
+	;; Note: this test works a bit differently for segment 0xB800. First we
+	;; print 'Y' to the first column of the first row, which is done by
+	;; writing 'Y' to 0xB800:0x0000. Then we print the contents of
+	;; 0xB800:0x0000 to the second column, so we print 'Y' again. Then we
+	;; write 'Z' to 0xB800:0x0000, which overwrites the 'Y' in the first
+	;; column with a 'Z'. Finally, we print the contents of 0xB800:0x0000
+	;; to the third column. So if 0xB800 is readable and writable we should
+	;; see ZYZ printed in the upper left corner of the screen.
+
 	jmp hang
 
 printChar:
